@@ -6,7 +6,19 @@ $FORMSTACK = new FormstackApi('9e8f8f3cb87f9e7ec0f07d52743ec60c');
 $dataFileContent = file_get_contents('data.json');
 
 /**
- * We first check if the data.json file is empty, if so we fill it with Formstack subscriptions
+*
+*/
+class ClassName extends AnotherClass
+{
+
+  function __construct(argument)
+  {
+    # code...
+  }
+}
+
+/**
+ * We first check if the data.json file is empty, if so we fill it with Formstack submissions
  */
 if (sizeof(json_decode($dataFileContent, true)) === 0) {
 
