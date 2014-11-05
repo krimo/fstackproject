@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>Formstack project</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="container">
+    <div class="header">
+        <h3 class="text-muted">Krimo Hafsaoui &mdash; Formstack test project</h3>
+    </div>
+
+    <h1>These people RSVPed to your invitation :</h1>
+    <hr>
+    <div id="attendance">
+
+    </div>
+
+    <div class="footer">
+        <p>Hire me!</p>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<script>
+
+    function displaySubmission(names, attending, howmany, id) {
+        var content,
+        contentAtt = '<div class="panel panel-primary animated" data-submission-id="'+id+'"><div class="panel-heading"><h3 class="panel-title">'+ names +'</h3></div><div class="panel-body">Is attending with <b>'+ howmany +'</b> guests.</div></div>',
+        contentNot = '<div class="panel panel-danger animated" data-submission-id="'+id+'"><div class="panel-heading"><h3 class="panel-title">' + names + '</h3></div><div class="panel-body">Is <b>not</b> attending.</div></div>';
+
+        (attending === '1') ? content = contentAtt : content = contentNot;
+
+        $('#attendance').prepend(content);
+
+        // $('#attendance')[0].scrollTop = $('#attendance')[0].scrollHeight;
+    }
+
+    // function deleteSubmission (id) {
+    //     var theId = id;
+    //     $.ajax({
+    //             url: 'server/interface.php',
+    //             type: 'DELETE',
+    //             data: {
+    //                 id: theId
+    //             },
+    //             success: function () {
+    //                 $el = $('#attendance').find('[data-submission-id='+theId+']');
+    //                 $el.remove();
+    //             }
+    //         });
+    // }
+
+    function updateView (data) {
+        var $attendees = $('#attendance > .panel'),
+            attendeesIds = [];
+
+        $.each( $attendees, function() {
+            attendeesIds.push($(this).attr('data-submission-id'));
+        });
+
+        $.each( data, function() {
+            var theId = this.id,
+                that = this;
+
+            if (attendeesIds.indexOf(theId) === -1) {
+                displaySubmission(that.names, that.attending, that.howmany, theId);
+            }
+        });
+    }
+
+    function getContent(timestamp)
+     {
+        var queryString = {'timestamp' : timestamp};
+
+        $.ajax(
+        {
+            type: 'GET',
+            url: 'server/polling.php',
+            data: queryString,
+            success: function(data){
+                    // put result data into "obj"
+                    var obj = jQuery.parseJSON(data);
+                    // put the data_from_file into #response
+                    updateView(jQuery.parseJSON(obj.data_from_file));
+                    // call the function again, this time with the timestamp we just got from server.php
+                    getContent(obj.timestamp);
+                }
+            }
+            );
+    }
+
+    // initialize jQuery
+    $(function() {
+        getContent();
+    });
+</script>
+
+</body>
+</html>

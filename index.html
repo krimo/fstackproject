@@ -1,0 +1,87 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>Formstack project</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">Krimo Hafsaoui &mdash; Formstack test project</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h1>Who's coming?</h1>
+            <p class="lead">Find out who's coming to your event. I'm using the Formstack API to send and receive the data, and write it to a JSON file. Then, with long polling, this page gets updated in "real time", anytime the file is changed.</p>
+            <!-- <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p> -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well">
+                    <form action="server/interface.php" method="POST" role="form" id="rsvpform">
+                        <legend>Event RSVP</legend>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+
+                                <div class="form-group">
+                                    <label for="names">Names of guests</label>
+                                    <input type="text" name="names" class="form-control" id="names" placeholder="John Smith, Oscar Wilde&hellip;">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+
+                                <div class="form-group">
+                                    <label for="attending">Will you be attending?</label> <br>
+                                    <input type="radio" name="attending" id="attending1" value="1"> yes
+
+                                    <input type="radio" name="attending" id="attending2" value="0"> no
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+
+                                <div class="form-group">
+                                    <label for="howmany">How many guests are you bringing, including yourself?</label>
+                                    <input type="number" class="form-control" id="howmany" name="howmany" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <div id="alerts"></div>
+            </div>
+        </div>
+
+        <h2>These people RSVPed to your invitation :</h2>
+        <hr>
+        <div id="attendance">
+
+        </div>
+
+        <div class="footer">
+            <p>Formstack project.</p>
+        </div>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
